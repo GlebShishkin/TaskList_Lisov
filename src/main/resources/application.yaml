@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskList?currentSchema=taskList
+#    url: jdbc:postgresql://localhost:5433/taskList?currentSchema=taskList  #ok Docker извне
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: never # чтобы работал liquibase
+      continue-on_error: false
+#      data-locations: classpath:demo_data.sql
+  liquibase:
+    change-log: classpath:liquibase/db.changelog.yaml
+    enabled: true
+    default-schema: tasklist
+security:
+  jwt:
+    secret: Z3NqZ2hnamdoZXdqYmpmNzJ5MjhodWZqZTJudWVmdWFqZm5mbmVqZm5h
+    access: 360000
+    refresh: 259200000
+springdoc:
+  override-with-generic-response: false

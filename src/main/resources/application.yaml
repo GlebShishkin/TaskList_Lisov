@@ -1,7 +1,15 @@
 spring:
+  cache:
+    type: redis
+    cache-names: redis-cache
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
   datasource:
     url: jdbc:postgresql://localhost:5432/taskList?currentSchema=taskList
-#    url: jdbc:postgresql://localhost:5433/taskList?currentSchema=taskList  #ok Docker извне
+#    url: jdbc:postgresql://localhost:5433/taskList?currentSchema=taskList  #OK для обращения в Docker извне
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver

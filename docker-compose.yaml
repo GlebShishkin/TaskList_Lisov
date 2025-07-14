@@ -11,8 +11,10 @@ services:
     container_name: taskList
     depends_on:
       - db
+      - redis
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/taskList?currentSchema=taskList
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/taskList?currentSchema=taskList
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres?currentSchema=tasklist
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
     ports:
@@ -34,8 +36,11 @@ services:
     image: redis:alpine
     restart: always
     container_name: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
     ports:
       - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass amdzYWtqamxscEtLUEtGS3NNTk1aTktERg==
+#    command: redis-server --save 20 1 --loglevel warning --requirepass amdzYWtqamxscEtLUEtGS3NNTk1aTktERg==
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
     volumes:
       - cache:/data

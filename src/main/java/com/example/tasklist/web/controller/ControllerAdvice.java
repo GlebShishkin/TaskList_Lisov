@@ -88,7 +88,7 @@ public class ControllerAdvice {
     public ExceptionBody handleAuthentication(
             final AuthenticationException e
     ) {
-        return new ExceptionBody("Authentication failed.");
+        return new ExceptionBody("Authentication failed: " + e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

@@ -10,6 +10,7 @@ import com.example.tasklist.web.dto.validation.OnCreate;
 import com.example.tasklist.web.mappers.UserMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "Auth Controller", description = "Auth API")
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -37,6 +39,7 @@ public class AuthController {
 */
     @PostMapping("/login")
     public JwtResponse login(@Validated @RequestBody JwtRequest loginRequest) {
+log.info("########## LOGIN: getUsername = " + loginRequest.getUsername() + "; getPassword = " + loginRequest.getPassword());
         return authService.login(loginRequest);
     }
 

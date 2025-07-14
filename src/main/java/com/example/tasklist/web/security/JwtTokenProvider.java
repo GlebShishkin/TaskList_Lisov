@@ -140,6 +140,7 @@ public class JwtTokenProvider {
             final String token
     ) {
         String username = getUsername(token);
+        //!!! Ищем логин пользователя через запрос пользователя через репозиторий при AuthController.login
         UserDetails userDetails = userDetailsService.loadUserByUsername(
                 username
         );

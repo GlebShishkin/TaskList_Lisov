@@ -109,6 +109,7 @@ public class UserRepositoryimp implements UserRepository  {
 
     @Override
     public Optional<User> findByUsername(String username) {
+log.info("####################### findByUsername username = " + username);
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_BY_USERNAME,

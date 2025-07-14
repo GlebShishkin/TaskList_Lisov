@@ -8,11 +8,21 @@ spring:
       port: 6379
       password:
   datasource:
-    url: jdbc:postgresql://localhost:5432/taskList?currentSchema=taskList
+    #!!! yaml работает корректно только со схемой, название которой состоит из маленьких букв!!!
+#    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=tasklist
+    url: jdbc:postgresql://localhost:5433/postgres?currentSchema=tasklist
 #    url: jdbc:postgresql://localhost:5433/taskList?currentSchema=taskList  #OK для обращения в Docker извне
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
+    jpa:
+      database: postgresql
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          ddl-auto: none
+
   sql:
     init:
       mode: never # чтобы работал liquibase
@@ -20,7 +30,7 @@ spring:
 #      data-locations: classpath:demo_data.sql
   liquibase:
     change-log: classpath:liquibase/db.changelog.yaml
-    enabled: true
+    enabled: false
     default-schema: tasklist
 security:
   jwt:

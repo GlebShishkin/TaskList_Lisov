@@ -1,19 +1,25 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   cache:
     type: redis
     cache-names: redis-cache
   data:
     redis:
-      host: localhost
+      host: ${REDIS_HOST} # OK, если app запускается в docker
+#      host: localhost # OK, если app запускается локально и обращается к redis расположенному в docker по порту 6379
       port: 6379
       password:
   datasource:
-    #!!! yaml работает корректно только со схемой, название которой состоит из маленьких букв!!!
-#    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=tasklist
-    url: jdbc:postgresql://localhost:5433/postgres?currentSchema=tasklist
-#    url: jdbc:postgresql://localhost:5433/taskList?currentSchema=taskList  #OK для обращения в Docker извне
-    username: postgres
-    password: postgres
+    #!!! yaml работает корректно только со схемой ("tasklist"), название которой состоит из маленьких букв!!!
+#    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=tasklist #OK для app и postgresql запущенных локально
+
+    # OK для app запущенного локально и обращения к postgresql запущенного в Docker на порту 5433
+    # ! При запуске app в docker эта настройка перебивается переменной SPRING_DATASOURCE_URL в docker-compose.yaml,
+    # поэтому при запуске "docker compose up" её менять не нужно !
+    url: jdbc:postgresql://${HOST}:5433/${POSTGRES_DATABASE}?currentSchema=${POSTGRES_SCHEMA}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
     jpa:
@@ -34,8 +40,11 @@ spring:
     default-schema: tasklist
 security:
   jwt:
-    secret: Z3NqZ2hnamdoZXdqYmpmNzJ5MjhodWZqZTJudWVmdWFqZm5mbmVqZm5h
-    access: 360000
-    refresh: 259200000
+#    secret: Z3NqZ2hnamdoZXdqYmpmNzJ5MjhodWZqZTJudWVmdWFqZm5mbmVqZm5h
+    secret: ${JWT_SECRET}
+#    access: 360000
+#    refresh: 259200000
+    access: 1
+    refresh: 30
 springdoc:
   override-with-generic-response: false
